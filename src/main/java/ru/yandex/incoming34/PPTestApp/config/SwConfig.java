@@ -1,19 +1,16 @@
 package ru.yandex.incoming34.PPTestApp.config;
 
-import com.google.common.base.Predicates;
-import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import org.assertj.core.internal.Predicates;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.*;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootConfiguration
 @ComponentScan("ru.yandex.incoming34.PPTestApp.**")
@@ -21,12 +18,12 @@ public class SwConfig {
 
     @Bean
     public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(Predicates.not(PathSelectors.regex("/error")))
-                .build()
-                .apiInfo(apiInfo());
+                //.apis(RequestHandlerSelectors.any())
+                //.paths(PathSelectors.any())
+                .build();
     }
 
     @Bean
@@ -40,6 +37,19 @@ public class SwConfig {
                 null)
                 ;
     }
+
+    @Bean
+    public OpenAPI customOpenApi(){
+       OpenAPI openAPI = new OpenAPI();
+       openAPI.setInfo(info());
+       return openAPI;
+    }
+
+    @Bean
+    Info info(){
+        return  new Info().title("PalPay test application");
+    }
+
  /*
     @Bean
     UiConfiguration uiConfig() {
