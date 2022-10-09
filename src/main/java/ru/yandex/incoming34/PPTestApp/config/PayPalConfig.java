@@ -43,7 +43,7 @@ public class PayPalConfig {
 
     @Bean
     public OAuthTokenCredential oAuthTokenCredential() {
-        return new OAuthTokenCredential(clientId, clientSecret, paypalSdkConfig());
+        return new  OAuthTokenCredential(clientId, clientSecret, paypalSdkConfig());
     }
 
     @Bean

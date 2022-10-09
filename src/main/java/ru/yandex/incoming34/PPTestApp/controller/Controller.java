@@ -10,9 +10,9 @@ import ru.yandex.incoming34.PPTestApp.component.UserOrder;
 import ru.yandex.incoming34.PPTestApp.service.OrderService;
 import ru.yandex.incoming34.PPTestApp.service.PaymentService;
 
+import java.util.Optional;
+
 @RestController("/orders")
-//@EnableWebMvc
-//@RequestMapping("/orders")
 public class Controller {
 
     @Autowired
@@ -27,25 +27,17 @@ public class Controller {
     public static final String CANCEL_URL = "pay/cancel";
 
     @PostMapping("/pay")
-    public String payment(@RequestBody UserOrder userOrder)
-                           {
-        System.out.println(userOrder);
+    public String payment(@RequestBody UserOrder userOrder) {
 
-        Payment payment = null;
-        try {
-            payment = paymentService.createPayment(userOrder.getPrice(), userOrder.getCurrency(), userOrder.getMethod(),
-                    userOrder.getIntent(), userOrder.getDescription(), "http://localhost:8080/" + CANCEL_URL,
-                    "http://localhost:8080/" + SUCCESS_URL);
-        } catch (PayPalRESTException e) {
-            throw new RuntimeException(e);
-        }
-        for(Links link:payment.getLinks()) {
-            if(link.getRel().equals("approval_url")) {
-                return "redirect:"+link.getHref();
+        Optional<Payment> paymentOptional = paymentService.createPayment(userOrder);
+
+        if (paymentOptional.isPresent()) {
+            for (Links link : paymentOptional.get().getLinks()) {
+                if (link.getRel().equals("approval_url")) {
+                    return "redirect:" + link.getHref();
+                }
             }
         }
-
-
 
         return "redirect:/";
     }
@@ -61,7 +53,7 @@ public class Controller {
             Payment payment = paymentService.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
-                return "success";
+                return "http://src/main/resources/templates/success.jsp";
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());
