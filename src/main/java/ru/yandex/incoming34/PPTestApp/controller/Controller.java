@@ -6,13 +6,11 @@ import com.paypal.base.rest.PayPalRESTException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.PPTestApp.component.UserOrder;
 import ru.yandex.incoming34.PPTestApp.service.OrderService;
 import ru.yandex.incoming34.PPTestApp.service.PaymentService;
 
-import java.net.http.HttpResponse;
 import java.util.Optional;
 
 @RestController("/orders")

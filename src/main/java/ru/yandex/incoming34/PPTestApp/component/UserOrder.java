@@ -1,11 +1,5 @@
 package ru.yandex.incoming34.PPTestApp.component;
 
-import org.springframework.stereotype.Component;
-
-import java.net.URI;
-
-
-
 public class UserOrder {
 
     private double price;

@@ -20,9 +20,6 @@ public class PaymentService {
     Logger logger = LoggerFactory.getLogger(PaymentService.class);
     Base64.Encoder base64encoder = Base64.getEncoder();
 
-
-    private final String APPROVE_LINK_REL = "approve";
-
     @Autowired
     private APIContext apiContext;
 
