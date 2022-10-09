@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 
 
-//@Component
+
 public class UserOrder {
 
     private double price;
